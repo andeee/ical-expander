@@ -54,6 +54,15 @@ it('should parse issue 285 case correctly', function () {
   ]);
 });
 
+it('should show recurring modified date for issue 285', function () {
+  const events = new IcalExpander({ ics: icaljsIssue285 })
+    .between(new Date('2017-01-18T00:00:00.000Z'), new Date('2017-01-19T00:00:00.000Z'));
+
+  assert.deepEqual(events.events.map(e => e.startDate.toJSDate()
+    .toISOString()), ['2017-01-18T08:00:00.000Z']);
+  assert.equal(events.occurrences.length, 0);
+});
+
 it('should parse all recurring events without going on forever', function () {
   const events = new IcalExpander({ ics: recurIcs })
     .all();

@@ -91,13 +91,13 @@ class IcalExpander {
             // We have passed the max date, stop
             if (before && startTime > before.getTime()) break;
 
-            // Check that we are within our range
-            if (isEventWithinRange(startTime, endTime)) {
-              if (exception) {
+            if (exception) {
+              const exceptionTimes = getTimes(exception);
+              if (isEventWithinRange(exceptionTimes.startTime, exceptionTimes.endTime)) {
                 ret.events.push(exception);
-              } else if (!isOccurrenceExcluded) {
-                ret.occurrences.push(occurrence);
               }
+            } else if (isEventWithinRange(startTime, endTime) && !isOccurrenceExcluded) {
+              ret.occurrences.push(occurrence);
             }
           }
         }
